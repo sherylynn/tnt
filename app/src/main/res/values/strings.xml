@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">tnt</string>
+    <string name="accessibility_service_label">tnt service</string>
+    <string name="accessibility_service_description">handle keyboard</string>
 </resources>
