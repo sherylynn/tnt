@@ -2,7 +2,9 @@ package com.sherylynn.tnt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -16,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private static final boolean USE_TEXTURE_VIEW=false;
     private static final boolean ENABLE_SUBTITLES=true;
     private static final String ASSET_FILENAME="bbb.m4v";
+    private static final String Net_address="http://al.hls.huya.com/backsrc/1417202357-1417202357-6086837775129116672-2750277196-10057-A-0-1.m3u8";
+    private static final String PLAY="short";
 
     private VLCVideoLayout mVideoLayout=null;
 
@@ -47,13 +51,22 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         mMediaPlayer.attachViews(mVideoLayout,null,ENABLE_SUBTITLES,USE_TEXTURE_VIEW);
 
-        try{
-            final Media media =new Media(mLibVLC,getAssets().openFd(ASSET_FILENAME));
-            mMediaPlayer.setMedia(media);
-            media.release();
-        }catch(IOException e){
-            throw new RuntimeException("Invalid asset folder");
+        if(PLAY=="local"){
+            try{
+                final Media media =new Media(mLibVLC,getAssets().openFd(ASSET_FILENAME));
+                mMediaPlayer.setMedia(media);
+                media.release();
+            }catch(IOException e){
+                throw new RuntimeException("Invalid asset folder");
+            }
+            mMediaPlayer.play();
+        }else if(PLAY=="short") {
+            mMediaPlayer.play(Uri.parse(Net_address));
+        }else{
+            //mMediaPlayer.play(Uri.parse(Net_address));
+            Log.v("测试",""+Uri.parse(Net_address));
+            mMediaPlayer.setMedia(new Media(mLibVLC,Uri.parse(Net_address)));
+            mMediaPlayer.play();
         }
-        mMediaPlayer.play();
     }
 }
