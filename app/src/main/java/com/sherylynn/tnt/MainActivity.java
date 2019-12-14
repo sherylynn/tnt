@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String ASSET_FILENAME="bbb.m4v";
     private static final String Net_address="http://mlive1.91kds.cn/b9/shydbst.m3u8?id=cctv1&nwtime=1576330610&sign=a32dd2b0e1519ada73f5d08ce92d2994&mip=112.64.68.25&from=com";
     //private static final String Net_address="http://al.hls.huya.com/backsrc/1417202357-1417202357-6086837775129116672-2750277196-10057-A-0-1.m3u8";
-    private static final String PLAY="short";
+    private static final String PLAY="debug";
 
     private VLCVideoLayout mVideoLayout=null;
     private boolean enableCloneMode=false;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         mMediaPlayer=new MediaPlayer(mLibVLC);
 
         mVideoLayout=findViewById(R.id.video_layout);
+        LogUtils.e("日志"+"onCreate");
     }
 
     @Override
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         mDisplayManager = new DisplayManager(this,mRendererItem , false, enableCloneMode, isBenchmark);
         //mMediaPlayer.attachViews(mVideoLayout,null,ENABLE_SUBTITLES,USE_TEXTURE_VIEW);
         mMediaPlayer.attachViews(mVideoLayout,mDisplayManager,ENABLE_SUBTITLES,USE_TEXTURE_VIEW);
+        LogUtils.e("日志"+"onStart");
 
         if(PLAY=="local"){
             try{
@@ -79,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
             mMediaPlayer.play(Uri.parse(Net_address));
         }else{
             //mMediaPlayer.play(Uri.parse(Net_address));
-            Log.v("测试","test"+Uri.parse(Net_address));
-            Log.v("测试","screen_fuck"+Uri.parse(Net_address));
-            Toast.makeText(this, "new"+mDisplayManager.isPrimary(), Toast.LENGTH_SHORT).show();
+            Log.v("测试","测试地址"+Uri.parse(Net_address));
+            LogUtils.e("日志"+"where is my logfile");
+            Toast.makeText(this, "窗口"+mDisplayManager.isPrimary(), Toast.LENGTH_SHORT).show();
             mMediaPlayer.setMedia(new Media(mLibVLC,Uri.parse(Net_address)));
             mMediaPlayer.play();
         }
