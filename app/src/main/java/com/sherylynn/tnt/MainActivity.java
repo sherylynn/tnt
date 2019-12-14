@@ -1,14 +1,20 @@
 package com.sherylynn.tnt;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.RendererDiscoverer;
+import org.videolan.libvlc.RendererItem;
+import org.videolan.libvlc.util.DisplayManager;
 import org.videolan.libvlc.util.VLCVideoLayout;
 
 import java.io.IOException;
@@ -23,9 +29,15 @@ public class MainActivity extends AppCompatActivity {
     private static final String PLAY="short";
 
     private VLCVideoLayout mVideoLayout=null;
+    private boolean enableCloneMode=false;
+    private boolean isBenchmark=false;
 
     private LibVLC mLibVLC =null;
     private MediaPlayer mMediaPlayer=null;
+
+    private DisplayManager mDisplayManager;
+
+    private LiveData<RendererItem> mRendererItem=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        mMediaPlayer.attachViews(mVideoLayout,null,ENABLE_SUBTITLES,USE_TEXTURE_VIEW);
+        mDisplayManager = new DisplayManager(this,mRendererItem , false, enableCloneMode, isBenchmark);
+        //mMediaPlayer.attachViews(mVideoLayout,null,ENABLE_SUBTITLES,USE_TEXTURE_VIEW);
+        mMediaPlayer.attachViews(mVideoLayout,mDisplayManager,ENABLE_SUBTITLES,USE_TEXTURE_VIEW);
 
         if(PLAY=="local"){
             try{
@@ -65,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
             mMediaPlayer.play(Uri.parse(Net_address));
         }else{
             //mMediaPlayer.play(Uri.parse(Net_address));
-            Log.v("测试",""+Uri.parse(Net_address));
+            Log.v("测试","test"+Uri.parse(Net_address));
+            Log.v("测试","screen_fuck"+Uri.parse(Net_address));
+            Toast.makeText(this, "new"+mDisplayManager.isPrimary(), Toast.LENGTH_SHORT).show();
             mMediaPlayer.setMedia(new Media(mLibVLC,Uri.parse(Net_address)));
             mMediaPlayer.play();
         }
