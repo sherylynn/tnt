@@ -18,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private static final boolean USE_TEXTURE_VIEW=false;
     private static final boolean ENABLE_SUBTITLES=true;
     private static final String ASSET_FILENAME="bbb.m4v";
-    private static final String Net_address="http://al.hls.huya.com/backsrc/1417202357-1417202357-6086837775129116672-2750277196-10057-A-0-1.m3u8";
+    private static final String Net_address="http://mlive1.91kds.cn/b9/shydbst.m3u8?id=cctv1&nwtime=1576330610&sign=a32dd2b0e1519ada73f5d08ce92d2994&mip=112.64.68.25&from=com";
+    //private static final String Net_address="http://al.hls.huya.com/backsrc/1417202357-1417202357-6086837775129116672-2750277196-10057-A-0-1.m3u8";
     private static final String PLAY="short";
 
     private VLCVideoLayout mVideoLayout=null;
